@@ -1,24 +1,24 @@
-package gomutextreentrancycontext
+package golockerreentrancycontext
 
 import (
 	"sync"
 )
 
-type MutexReentrancyContext struct {
+type LockerReentrancyContext struct {
 	OwnLock     sync.Mutex
-	LockerItems []*MutexReentrancyContextLockerItem
+	LockerItems []*LockerReentrancyContextItem
 }
 
-type MutexReentrancyContextLockerItem struct {
+type LockerReentrancyContextItem struct {
 	Subject sync.Locker
 	Counter int
 }
 
-func (self *MutexReentrancyContext) LockMutex(subject *sync.Mutex) {
+func (self *LockerReentrancyContext) LockMutex(subject *sync.Mutex) {
 	self.OwnLock.Lock()
 	defer self.OwnLock.Unlock()
 
-	var item *MutexReentrancyContextLockerItem
+	var item *LockerReentrancyContextItem
 
 	for _, i := range self.LockerItems {
 		if i.Subject == subject {
@@ -28,7 +28,7 @@ func (self *MutexReentrancyContext) LockMutex(subject *sync.Mutex) {
 	}
 
 	if item == nil {
-		item = new(MutexReentrancyContextLockerItem)
+		item = new(LockerReentrancyContextItem)
 		item.Subject = subject
 		item.Counter = 0
 		self.LockerItems = append(self.LockerItems, item)
@@ -41,11 +41,11 @@ func (self *MutexReentrancyContext) LockMutex(subject *sync.Mutex) {
 	item.Counter++
 }
 
-func (self *MutexReentrancyContext) UnlockMutex(subject *sync.Mutex) {
+func (self *LockerReentrancyContext) UnlockMutex(subject *sync.Mutex) {
 	self.OwnLock.Lock()
 	defer self.OwnLock.Unlock()
 
-	var item *MutexReentrancyContextLockerItem
+	var item *LockerReentrancyContextItem
 
 	for _, i := range self.LockerItems {
 		if i.Subject == subject {

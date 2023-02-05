@@ -1,3 +1,3 @@
-module github.com/AnimusPEXUS/gomutextreentrancycontext
+module github.com/AnimusPEXUS/golockerreentrancycontext
 
 go 1.20

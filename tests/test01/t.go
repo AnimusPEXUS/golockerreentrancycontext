@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AnimusPEXUS/gomutextreentrancycontext"
+	"github.com/AnimusPEXUS/golockerreentrancycontext"
 )
 
 type C1 struct {
@@ -13,9 +13,9 @@ type C1 struct {
 	wg *sync.WaitGroup
 }
 
-func (self *C1) f1(rc *gomutextreentrancycontext.MutexReentrancyContext) {
+func (self *C1) f1(rc *golockerreentrancycontext.LockerReentrancyContext) {
 	if rc == nil {
-		rc = new(gomutextreentrancycontext.MutexReentrancyContext)
+		rc = new(golockerreentrancycontext.LockerReentrancyContext)
 	}
 	rc.LockMutex(&self.m)
 	defer rc.UnlockMutex(&self.m)
@@ -41,10 +41,10 @@ func (self *C1) f1(rc *gomutextreentrancycontext.MutexReentrancyContext) {
 
 func (self *C1) f2(
 	msg string,
-	rc *gomutextreentrancycontext.MutexReentrancyContext,
+	rc *golockerreentrancycontext.LockerReentrancyContext,
 ) {
 	if rc == nil {
-		rc = new(gomutextreentrancycontext.MutexReentrancyContext)
+		rc = new(golockerreentrancycontext.LockerReentrancyContext)
 	}
 
 	fmt.Println("f2 - before Lock():", fmt.Sprintf("(%s)", msg))
