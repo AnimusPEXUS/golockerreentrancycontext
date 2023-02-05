@@ -1,0 +1,11 @@
+C++, C, D, Python -- all have re-entrant Lock support. Go - doesn't.
+
+there are some hack Go packages, which try to get Goroutine id and use it 
+to base Mutex locking on.
+
+current package suggests the other approach to this problem, by 
+creating Mutex using context in space of function call (on stack)
+so Mutex locking is based on call context. this context is shared 
+via function parameter.
+
+see example usage in tests directory
